@@ -8,7 +8,7 @@ def add_nodes(graph, tup_ls, labels, keys):
     print('Number of nodes in graph: ', graph.nodes.match('Node').count())
     
 # * Create edges for graph
-def create_edges(board_name, cards_tupl, cards_with_checklists):
+def create_edges(board_name, cards_tupl, card_word_triples, checklist_word_triples, cards_with_checklists):
     edge_tupl = {}
     edge_ls = ["has"]
 
@@ -34,6 +34,20 @@ def create_edges(board_name, cards_tupl, cards_with_checklists):
         for member in card_members:
             member_name = member['fullName'].lower()
             edge_tupl["has"].append((card_name, "has", member_name))
+
+    # * Edge between card and card words
+    for item in card_word_triples:
+        if item[1] in edge_tupl:
+            edge_tupl[item[1]].append((item[0], item[1], item[2]))
+        else:
+            edge_tupl[item[1]] = [(item[0], item[1], item[2])]
+
+    # * Edge between checklist and checklist words
+    for item in checklist_word_triples:
+        if item[1] in edge_tupl:
+            edge_tupl[item[1]].append((item[0], item[1], item[2]))
+        else:
+            edge_tupl[item[1]] = [(item[0], item[1], item[2])]
     
     return edge_tupl
 
