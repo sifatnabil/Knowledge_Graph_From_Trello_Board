@@ -37,7 +37,7 @@ def create_edges(board_name, cards_tupl, cards_with_checklists):
     
     return edge_tupl
 
-# TODO Add edges between nodes
+# * Add edges between nodes
 def add_edges(graph, nodes_matcher, Node, Relationship, edge_dc):
     for edge_labels, tup_ls in tqdm(edge_dc.items()):   # k=edge labels, v = list of tuples
         tx = graph.begin()

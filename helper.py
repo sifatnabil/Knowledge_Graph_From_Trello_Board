@@ -55,13 +55,13 @@ def get_checklists_tupl_ls(checklists):
             checklists_tupl.append((checklist['id'], item['name'].lower(), item['state']))
     return checklists_tupl
 
-# TODO Get checklists of card
+# * Get checklists of card
 def get_card_checklists(card_id):
     url = f'https://api.trello.com/1/cards/{card_id}/checklists?key={key}&token={token}'
     response = requests.get(url)
     return response.json()
 
-# TODO Get cards with checklists
+# * Get cards with checklists
 def get_cards_with_checklists(cards):
     cards_with_checklists = []
     for card in cards:
