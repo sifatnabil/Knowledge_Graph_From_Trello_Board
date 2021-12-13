@@ -85,7 +85,7 @@ def get_cards_with_checklists(cards):
     return cards_with_checklists
 
 
-# TODO Create board to board word triples
+# * Create board to board word triples
 def create_card_word_triples(cards, non_nc, nlp):
     card_word_triples = []
     nodes = []
@@ -104,7 +104,7 @@ def create_card_word_triples(cards, non_nc, nlp):
 
     return card_word_triples, nodes
 
-# TODO Create checklist word to board word triples
+# * Create checklist word to board word triples
 def create_checklist_word_triples(cards, non_nc, nlp):
     checklist_word_triples = []
     nodes = []

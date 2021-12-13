@@ -6,6 +6,7 @@ from py2neo import Node, Graph, Relationship, NodeMatcher
 from helper import *
 from graph_functions import *
 from env import *
+from add_synonyms import add_synonyms
 
 # * Load Spacy Pipeline
 non_dc = spacy.load('en_core_web_md')
@@ -53,8 +54,18 @@ add_nodes(graph, word_nodes, labels={"Word", "CardWord"}, keys=["name", "card_na
 # * Add checklist words as Nodes
 add_nodes(graph, checklist_word_nodes, labels={"Word", "ChecklistWord"}, keys=["name", "card_name", "checklist_name", "card_url"])
 
+# * Find Synonyms and Add them as nodes
+entities = graph.run("MATCH (n:Word) RETURN n.name").data()
+synonym_nodes, entity_synonyms, synonym_triplets = add_synonyms(entities)
+add_nodes(graph, synonym_nodes, labels={"Synonym"}, keys=["name", "synonym_of"])
+
 # * Create edges dictionary for graph
-edge_tupl_ls = create_edges(board_name, cards_tupl_ls, card_word_triples, checklist_word_triples, cards_with_checklists)
+edge_tupl_ls = create_edges(board_name,         
+                            cards_tupl_ls, 
+                            card_word_triples, 
+                            checklist_word_triples, 
+                            cards_with_checklists, 
+                            synonym_triplets)
 
 # * Add edges to the graph
 add_edges(graph, nodes_matcher, Node, Relationship, edge_tupl_ls)
