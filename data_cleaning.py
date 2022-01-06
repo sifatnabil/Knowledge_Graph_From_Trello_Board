@@ -55,12 +55,14 @@ def create_triples(card, doc, item=None, checklist=False):
         if token.dep_ in SUBJECTS or \
         token.dep_ in OBJECTS or \
         token.dep_ in VERBS:
-            if checklist:
-                tupl = (item.lower(), "contains", token.lower_)
-                word_obj = (token.lower_, card['name'].lower(), item, card['url'])
-            else:
-                tupl = (card['name'].lower(), "contains", token.lower_)
-                word_obj = (token.lower_, card['name'].lower(), card['url'])
+            # if checklist:
+            #     tupl = (item.lower(), "contains", token.lower_)
+            #     word_obj = (token.lower_, card['name'].lower(), item, card['url'])
+            # else:
+            #     tupl = (card['name'].lower(), "contains", token.lower_)
+            #     word_obj = (token.lower_, card['name'].lower(), card['url'])
+            tupl = (card["name"].lower(), "contains", token.lower_)
+            word_obj = (token.lower_, card['name'].lower())
 
     return tupl, word_obj
 

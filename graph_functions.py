@@ -6,9 +6,18 @@ from tqdm import tqdm
 def add_nodes(graph, tup_ls, labels, keys):   
     merge_nodes(graph.auto(), tup_ls, ('Node', 'name'), labels=labels, keys=keys)
     print('Number of nodes in graph: ', graph.nodes.match('Node').count())
+
+
+# * Create edges from erp
+def create_erp_trello_edges(trello_cards_tupl, erp_words_tupl):
+    edge_tupl = {}
+
+    # * Edge between cards and words
+
+    pass
     
 # * Create edges for graph
-def create_edges(board_name, cards_tupl, card_word_triples, checklist_word_triples, cards_with_checklists, synonym_triplets):
+def create_edges(board_name, cards_tupl, card_word_triples=None, checklist_word_triples=None, cards_with_checklists=None, synonym_triplets=None):
     edge_tupl = {}
     edge_ls = ["has"]
 
@@ -20,11 +29,12 @@ def create_edges(board_name, cards_tupl, card_word_triples, checklist_word_tripl
             edge_tupl["has"] = [(board_name.lower(), "has", card[1])]
 
     # * Edge between cards and checklists
-    for card in cards_with_checklists:
-        card_name = card['name'].lower()
-        for checklist in card['checklists']:
-            checklist_name = checklist['name'].lower()
-            edge_tupl["has"].append((card_name, "has", checklist_name))
+    if cards_with_checklists:
+        for card in cards_with_checklists:
+            card_name = card['name'].lower()
+            for checklist in card['checklists']:
+                checklist_name = checklist['name'].lower()
+                edge_tupl["has"].append((card_name, "has", checklist_name))
 
     # * Edge between members and cards
     for card in cards_tupl:
@@ -36,25 +46,28 @@ def create_edges(board_name, cards_tupl, card_word_triples, checklist_word_tripl
             edge_tupl["has"].append((card_name, "has", member_name))
 
     # * Edge between card and card words
-    for item in card_word_triples:
-        if item[1] in edge_tupl:
-            edge_tupl[item[1]].append((item[0], item[1], item[2]))
-        else:
-            edge_tupl[item[1]] = [(item[0], item[1], item[2])]
+    if card_word_triples:
+        for item in card_word_triples:
+            if item[1] in edge_tupl:
+                edge_tupl[item[1]].append((item[0], item[1], item[2]))
+            else:
+                edge_tupl[item[1]] = [(item[0], item[1], item[2])]
 
     # * Edge between checklist and checklist words
-    for item in checklist_word_triples:
-        if item[1] in edge_tupl:
-            edge_tupl[item[1]].append((item[0], item[1], item[2]))
-        else:
-            edge_tupl[item[1]] = [(item[0], item[1], item[2])]
+    if checklist_word_triples:
+        for item in checklist_word_triples:
+            if item[1] in edge_tupl:
+                edge_tupl[item[1]].append((item[0], item[1], item[2]))
+            else:
+                edge_tupl[item[1]] = [(item[0], item[1], item[2])]
 
     # * Edge between synonyms and words
-    for item in synonym_triplets:
-        if item[1] in edge_tupl: 
-            edge_tupl[item[1]].append((item[0], item[1], item[2]))
-        else:
-            edge_tupl[item[1]] = [(item[0], item[1], item[2])]
+    if synonym_triplets:
+        for item in synonym_triplets:
+            if item[1] in edge_tupl: 
+                edge_tupl[item[1]].append((item[0], item[1], item[2]))
+            else:
+                edge_tupl[item[1]] = [(item[0], item[1], item[2])]
     
     return edge_tupl
 

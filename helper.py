@@ -85,6 +85,13 @@ def get_cards_with_checklists(cards):
     return cards_with_checklists
 
 
+# * Create ERP task tuple 
+def create_erp_tupl_ls(trello_tasks):
+    erp_tupl_ls = []
+    for task in trello_tasks:
+        erp_tupl_ls.append((task['name'].lower(), task['from']))
+    return erp_tupl_ls
+
 # * Create board to board word triples
 def create_card_word_triples(cards, non_nc, nlp):
     card_word_triples = []
