@@ -17,7 +17,14 @@ def create_erp_trello_edges(trello_cards_tupl, erp_words_tupl):
     pass
     
 # * Create edges for graph
-def create_edges(board_name, cards_tupl, card_word_triples=None, checklist_word_triples=None, cards_with_checklists=None, synonym_triplets=None):
+def create_edges(board_name, 
+                 cards_tupl, 
+                 card_word_triples=None, 
+                 checklist_word_triples=None, 
+                 cards_with_checklists=None,
+                 erp_tasks=None, 
+                 synonym_triplets=None):
+    
     edge_tupl = {}
     edge_ls = ["has"]
 
@@ -61,6 +68,14 @@ def create_edges(board_name, cards_tupl, card_word_triples=None, checklist_word_
             else:
                 edge_tupl[item[1]] = [(item[0], item[1], item[2])]
 
+    # * Edge between erp tasks and words
+    if erp_tasks:
+        for item in erp_tasks:
+            if item[1] in edge_tupl:
+                edge_tupl[item[1]].append((item[0], item[1], item[2]))
+            else:
+                edge_tupl[item[1]] = [(item[0], item[1], item[2])]
+
     # * Edge between synonyms and words
     if synonym_triplets:
         for item in synonym_triplets:
@@ -68,6 +83,8 @@ def create_edges(board_name, cards_tupl, card_word_triples=None, checklist_word_
                 edge_tupl[item[1]].append((item[0], item[1], item[2]))
             else:
                 edge_tupl[item[1]] = [(item[0], item[1], item[2])]
+
+    
     
     return edge_tupl
 
