@@ -6,15 +6,6 @@ from tqdm import tqdm
 def add_nodes(graph, tup_ls, labels, keys):   
     merge_nodes(graph.auto(), tup_ls, ('Node', 'name'), labels=labels, keys=keys)
     print('Number of nodes in graph: ', graph.nodes.match('Node').count())
-
-
-# * Create edges from erp
-def create_erp_trello_edges(trello_cards_tupl, erp_words_tupl):
-    edge_tupl = {}
-
-    # * Edge between cards and words
-
-    pass
     
 # * Create edges for graph
 def create_edges(board_name, 
