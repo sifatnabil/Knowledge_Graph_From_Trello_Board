@@ -41,7 +41,7 @@ add_nodes(graph, members_tupl_ls, labels={"Person"}, keys=["user_id", "name", "u
 print("Added Board Members as Nodes")
 
 # * Add cards as Nodes
-add_nodes(graph, cards_tupl_ls, labels={"Card"}, keys=["card_id", "name", "description" "url"])
+add_nodes(graph, cards_tupl_ls, labels={"Card"}, keys=["card_id", "name", "description", "url"])
 print("Added cards as nodes")
 
 # * Add checklists as Nodes
